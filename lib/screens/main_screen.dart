@@ -7,6 +7,7 @@ import 'package:tryon_me/utils/routes.dart';
 import 'package:tryon_me/widgets/image_input.dart';
 
 class MainScreen extends StatefulWidget {
+  const MainScreen({super.key});
   @override
   _MainScreenState createState() => _MainScreenState();
 }
@@ -18,7 +19,7 @@ class _MainScreenState extends State<MainScreen> {
   bool longGarment = false;
   double guidanceScale = 2.0;
   int timesteps = 50;
-  int? seed;
+  int? seed = 42;
   int numSamples = 1;
   bool isProcessing = false;
   String category = 'tops';
@@ -38,77 +39,76 @@ class _MainScreenState extends State<MainScreen> {
       garmentImageData = data;
     });
   }
-
-  Future<void> sendTryOnRequest() async {
-    if (modelImageData == null || garmentImageData == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-            content: Text('Please provide both model and garment images.')),
-      );
-      return;
-    }
-
-    try {
-      setState(() {
-        isProcessing = true;
-      });
-
-      // Check if modelImageData is a file or URL
-      final modelImageUrl = modelImageData!.file != null
-          ? await ApiService().getImageUrl(modelImageData!)
-          : modelImageData!.url;
-
-      // Check if garmentImageData is a file or URL
-      final garmentImageUrl = garmentImageData!.file != null
-          ? await ApiService().getImageUrl(garmentImageData!)
-          : garmentImageData!.url;
-
-      // Ensure both URLs are valid
-      if (modelImageUrl == null || garmentImageUrl == null) {
-        throw Exception('Invalid image data: URLs are missing.');
-      }
-
-      // Prepare the request body
-      final requestBody = {
-        "model_image": modelImageUrl,
-        "garment_image": garmentImageUrl,
-        "category": category,
-        "garment_photo_type": garmentPhotoType,
-        "nsfw_filter": true,
-        "cover_feet": coverFeet,
-        "adjust_hands": adjustHands,
-        "restore_background": backgroundRestore,
-        "restore_clothes": restoreClothes,
-        "long_top": longGarment,
-        "guidance_scale": guidanceScale,
-        "timesteps": timesteps,
-        "seed": seed,
-        "num_samples": numSamples,
-      };
-
-      // Send the request to the API
-      final outputUrl = await ApiService().sendTryOnRequestToAPI(requestBody);
-
-      setState(() {
-        isProcessing = false;
-      });
-
-      // Navigate to the results screen
-      Navigator.pushNamed(
-        context,
-        Routes.resultsScreen,
-        arguments: outputUrl,
-      );
-    } catch (e) {
-      setState(() {
-        isProcessing = false;
-      });
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('API request failed: $e')),
-      );
-    }
+Future<void> sendTryOnRequest() async {
+  if (modelImageData == null || garmentImageData == null) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+          content: Text('Please provide both model and garment images.')),
+    );
+    return;
   }
+
+  try {
+    setState(() {
+      isProcessing = true;
+    });
+
+    // Check if modelImageData is a file or URL
+    final modelImageUrl = modelImageData!.file != null
+        ? await ApiService().getImageUrl(modelImageData!)
+        : modelImageData!.url;
+
+    // Check if garmentImageData is a file or URL
+    final garmentImageUrl = garmentImageData!.file != null
+        ? await ApiService().getImageUrl(garmentImageData!)
+        : garmentImageData!.url;
+
+    // Ensure both URLs are valid
+    if (modelImageUrl == null || garmentImageUrl == null) {
+      throw Exception('Invalid image data: URLs are missing.');
+    }
+
+    // Prepare the request body with default values for nullable fields
+    final requestBody = {
+  "model_image": modelImageUrl,
+  "garment_image": garmentImageUrl,
+  "category": category,
+  "garment_photo_type": garmentPhotoType,
+  "nsfw_filter": true,
+  "cover_feet": coverFeet,
+  "adjust_hands": adjustHands,
+  "restore_background": backgroundRestore,
+  "restore_clothes": restoreClothes,
+  "long_top": longGarment,
+  "guidance_scale": guidanceScale,
+  "timesteps": timesteps,
+  "seed": seed ?? 42, // Ensure seed is not null
+  "num_samples": numSamples,
+};
+
+    // Send the request to the API
+    final outputUrl = await ApiService().sendTryOnRequestToAPI(requestBody);
+
+    setState(() {
+      isProcessing = false;
+    });
+
+    // Navigate to the results screen
+    Navigator.pushNamed(
+      context,
+      Routes.resultsScreen,
+      arguments: outputUrl,
+    );
+  } catch (e) {
+    setState(() {
+      isProcessing = false;
+    });
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('API request failed: $e')),
+    );
+  }
+}
 
   @override
   Widget build(BuildContext context) {
@@ -120,7 +120,7 @@ class _MainScreenState extends State<MainScreen> {
             style: TextStyle(
               fontSize: 35,
               color: Colors.blue,
-              fontFamily: 'Pacifico',
+              fontFamily: 'regular',
               fontWeight: FontWeight.bold,
             ),
           ),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class ResultsScreen extends StatelessWidget {
-  final String outputImageUrl;
+  final String? outputImageUrl;
 
   ResultsScreen({required this.outputImageUrl});
 
@@ -15,16 +15,19 @@ class ResultsScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.network(
-              outputImageUrl,
-              loadingBuilder: (context, child, loadingProgress) {
-                if (loadingProgress == null) return child;
-                return CircularProgressIndicator();
-              },
-              errorBuilder: (context, error, stackTrace) {
-                return Text('Failed to load image.');
-              },
-            ),
+            if (outputImageUrl != null)
+              Image.network(
+                outputImageUrl!,
+                loadingBuilder: (context, child, loadingProgress) {
+                  if (loadingProgress == null) return child;
+                  return CircularProgressIndicator();
+                },
+                errorBuilder: (context, error, stackTrace) {
+                  return Text('Failed to load image.');
+                },
+              )
+            else
+              Text('No image available.'),
             SizedBox(height: 16.0),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,

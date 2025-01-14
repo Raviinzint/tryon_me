@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
       title: 'FASHN Virtual Try-On',
       theme: ThemeData(
         primarySwatch: Colors.blue,
-        textTheme: GoogleFonts.cedarvilleCursiveTextTheme(),
+        textTheme: GoogleFonts.poppinsTextTheme(),
       ),
       initialRoute: Routes.mainScreen,
       routes: {
