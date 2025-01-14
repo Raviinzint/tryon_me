@@ -114,240 +114,264 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Center(child: Text('Try-On Me')),
+        title: Center(
+          child: Text(
+            'Try-On Me',
+            style: TextStyle(
+              fontSize: 35,
+              color: Colors.blue,
+              fontFamily: 'Pacifico',
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
       ),
-      body: ListView(
-        padding: EdgeInsets.all(16.0),
-        children: [
-          // Model Image Input
-          Card(
-            elevation: 4.0,
-            child: Padding(
-              padding: EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Model Image',
-                    style: Theme.of(context).textTheme.titleLarge,
-                  ),
-                  SizedBox(height: 8.0),
-                  ImageInput(
-                    type: ImageInputType.model,
-                    onImageSelected: _onModelImageSelected,
-                  ),
-                ],
+      backgroundColor: const Color.fromARGB(255, 50, 159, 210),
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              Color.fromARGB(255, 211, 149, 211), // Light blue
+              Color(0xFFEAF9FF), // Soft white
+            ],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+        ),
+        child: ListView(
+          padding: EdgeInsets.all(16.0),
+          children: [
+            // Model Image Input
+            Card(
+              elevation: 4.0,
+              child: Padding(
+                padding: EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Model Image',
+                      style: Theme.of(context).textTheme.titleLarge,
+                    ),
+                    SizedBox(height: 12.0),
+                    ImageInput(
+                      type: ImageInputType.model,
+                      onImageSelected: _onModelImageSelected,
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-          SizedBox(height: 16.0),
+            SizedBox(height: 16.0),
 
-          // Garment Image Input
-          Card(
-            elevation: 4.0,
-            child: Padding(
-              padding: EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Garment Image',
-                    style: Theme.of(context).textTheme.titleLarge,
-                  ),
-                  SizedBox(height: 8.0),
-                  ImageInput(
-                    type: ImageInputType.garment,
-                    onImageSelected: _onGarmentImageSelected,
-                  ),
-                ],
+            // Garment Image Input
+            Card(
+              elevation: 4.0,
+              child: Padding(
+                padding: EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Garment Image',
+                      style: Theme.of(context).textTheme.titleLarge,
+                    ),
+                    SizedBox(height: 8.0),
+                    ImageInput(
+                      type: ImageInputType.garment,
+                      onImageSelected: _onGarmentImageSelected,
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-          SizedBox(height: 16.0),
+            SizedBox(height: 16.0),
 
-          // Garment Details
-          Card(
-            elevation: 4.0,
-            child: Padding(
-              padding: EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Garment Details',
-                    style: Theme.of(context).textTheme.titleLarge,
-                  ),
-                  SizedBox(height: 8.0),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: DropdownButtonFormField<String>(
-                          value: category,
-                          items: ['tops', 'bottoms', 'one-pieces']
-                              .map((String value) {
-                            return DropdownMenuItem<String>(
-                              value: value,
-                              child: Text(value),
-                            );
-                          }).toList(),
-                          onChanged: (value) {
-                            setState(() {
-                              category = value!;
-                            });
-                          },
-                          decoration: InputDecoration(labelText: 'Category'),
+            // Garment Details
+            Card(
+              elevation: 4.0,
+              child: Padding(
+                padding: EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Garment Details',
+                      style: Theme.of(context).textTheme.titleLarge,
+                    ),
+                    SizedBox(height: 8.0),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: DropdownButtonFormField<String>(
+                            value: category,
+                            items: ['tops', 'bottoms', 'one-pieces']
+                                .map((String value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Text(value),
+                              );
+                            }).toList(),
+                            onChanged: (value) {
+                              setState(() {
+                                category = value!;
+                              });
+                            },
+                            decoration: InputDecoration(labelText: 'Category'),
+                          ),
                         ),
-                      ),
-                      Expanded(
-                        child: DropdownButtonFormField<String>(
-                          value: garmentPhotoType,
-                          items:
-                              ['auto', 'model', 'flat-lay'].map((String value) {
-                            return DropdownMenuItem<String>(
-                              value: value,
-                              child: Text(value),
-                            );
-                          }).toList(),
+                        Expanded(
+                          child: DropdownButtonFormField<String>(
+                            value: garmentPhotoType,
+                            items: ['auto', 'model', 'flat-lay']
+                                .map((String value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Text(value),
+                              );
+                            }).toList(),
+                            onChanged: (value) {
+                              setState(() {
+                                garmentPhotoType = value!;
+                              });
+                            },
+                            decoration: InputDecoration(
+                                labelText: 'Garment Photo Type'),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            SizedBox(height: 16.0),
+
+            // Advanced Options
+            Card(
+              elevation: 4.0,
+              child: Padding(
+                padding: EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Advanced Options',
+                      style: Theme.of(context).textTheme.titleLarge,
+                    ),
+                    SizedBox(height: 8.0),
+                    ExpansionTile(
+                      title: Text('Expand for Advanced Options'),
+                      children: [
+                        // Restore Background Toggle
+                        SwitchListTile(
+                          title: Text('Restore Background'),
+                          value: backgroundRestore,
                           onChanged: (value) {
                             setState(() {
-                              garmentPhotoType = value!;
+                              backgroundRestore = value;
                             });
                           },
+                        ),
+                        // Long Garment Toggle
+                        SwitchListTile(
+                          title: Text('Long Garment'),
+                          value: longGarment,
+                          onChanged: (value) {
+                            setState(() {
+                              longGarment = value;
+                            });
+                          },
+                        ),
+                        CheckboxListTile(
+                          title: Text('Cover Feet'),
+                          value: coverFeet,
+                          onChanged: (value) {
+                            setState(() {
+                              coverFeet = value!;
+                            });
+                          },
+                        ),
+                        CheckboxListTile(
+                          title: Text('Adjust Hands'),
+                          value: adjustHands,
+                          onChanged: (value) {
+                            setState(() {
+                              adjustHands = value!;
+                            });
+                          },
+                        ),
+                        CheckboxListTile(
+                          title: Text('Restore Clothes'),
+                          value: restoreClothes,
+                          onChanged: (value) {
+                            setState(() {
+                              restoreClothes = value!;
+                            });
+                          },
+                        ),
+                        TextFormField(
                           decoration:
-                              InputDecoration(labelText: 'Garment Photo Type'),
+                              InputDecoration(labelText: 'Guidance Scale'),
+                          initialValue: guidanceScale.toString(),
+                          onChanged: (value) {
+                            setState(() {
+                              guidanceScale = double.tryParse(value) ?? 2.0;
+                            });
+                          },
                         ),
-                      ),
-                    ],
-                  ),
-                ],
+                        TextFormField(
+                          decoration: InputDecoration(labelText: 'Timesteps'),
+                          initialValue: timesteps.toString(),
+                          onChanged: (value) {
+                            setState(() {
+                              timesteps = int.tryParse(value) ?? 50;
+                            });
+                          },
+                        ),
+                        TextFormField(
+                          decoration: InputDecoration(labelText: 'Seed'),
+                          initialValue: seed != null ? seed.toString() : '',
+                          onChanged: (value) {
+                            setState(() {
+                              seed = int.tryParse(value);
+                            });
+                          },
+                        ),
+                        TextFormField(
+                          decoration:
+                              InputDecoration(labelText: 'Number of Samples'),
+                          initialValue: numSamples.toString(),
+                          onChanged: (value) {
+                            setState(() {
+                              numSamples = int.tryParse(value) ?? 1;
+                            });
+                          },
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-          SizedBox(height: 16.0),
+            SizedBox(height: 16.0),
 
-          // Advanced Options
-          Card(
-            elevation: 4.0,
-            child: Padding(
-              padding: EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Advanced Options',
-                    style: Theme.of(context).textTheme.titleLarge,
-                  ),
-                  SizedBox(height: 8.0),
-                  ExpansionTile(
-                    title: Text('Expand for Advanced Options'),
-                    children: [
-                      // Restore Background Toggle
-                      SwitchListTile(
-                        title: Text('Restore Background'),
-                        value: backgroundRestore,
-                        onChanged: (value) {
-                          setState(() {
-                            backgroundRestore = value;
-                          });
-                        },
-                      ),
-                      // Long Garment Toggle
-                      SwitchListTile(
-                        title: Text('Long Garment'),
-                        value: longGarment,
-                        onChanged: (value) {
-                          setState(() {
-                            longGarment = value;
-                          });
-                        },
-                      ),
-                      CheckboxListTile(
-                        title: Text('Cover Feet'),
-                        value: coverFeet,
-                        onChanged: (value) {
-                          setState(() {
-                            coverFeet = value!;
-                          });
-                        },
-                      ),
-                      CheckboxListTile(
-                        title: Text('Adjust Hands'),
-                        value: adjustHands,
-                        onChanged: (value) {
-                          setState(() {
-                            adjustHands = value!;
-                          });
-                        },
-                      ),
-                      CheckboxListTile(
-                        title: Text('Restore Clothes'),
-                        value: restoreClothes,
-                        onChanged: (value) {
-                          setState(() {
-                            restoreClothes = value!;
-                          });
-                        },
-                      ),
-                      TextFormField(
-                        decoration:
-                            InputDecoration(labelText: 'Guidance Scale'),
-                        initialValue: guidanceScale.toString(),
-                        onChanged: (value) {
-                          setState(() {
-                            guidanceScale = double.tryParse(value) ?? 2.0;
-                          });
-                        },
-                      ),
-                      TextFormField(
-                        decoration: InputDecoration(labelText: 'Timesteps'),
-                        initialValue: timesteps.toString(),
-                        onChanged: (value) {
-                          setState(() {
-                            timesteps = int.tryParse(value) ?? 50;
-                          });
-                        },
-                      ),
-                      TextFormField(
-                        decoration: InputDecoration(labelText: 'Seed'),
-                        initialValue: seed != null ? seed.toString() : '',
-                        onChanged: (value) {
-                          setState(() {
-                            seed = int.tryParse(value);
-                          });
-                        },
-                      ),
-                      TextFormField(
-                        decoration:
-                            InputDecoration(labelText: 'Number of Samples'),
-                        initialValue: numSamples.toString(),
-                        onChanged: (value) {
-                          setState(() {
-                            numSamples = int.tryParse(value) ?? 1;
-                          });
-                        },
-                      ),
-                    ],
-                  ),
-                ],
+            // Try On Button
+            ElevatedButton(
+              onPressed: isProcessing ? null : sendTryOnRequest,
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Theme.of(context).primaryColor,
+                foregroundColor: Colors.white,
+                padding: EdgeInsets.symmetric(vertical: 16.0),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
               ),
+              child:
+                  isProcessing ? CircularProgressIndicator() : Text('Try On'),
             ),
-          ),
-          SizedBox(height: 16.0),
-
-          // Try On Button
-          ElevatedButton(
-            onPressed: isProcessing ? null : sendTryOnRequest,
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Theme.of(context).primaryColor,
-              foregroundColor: Colors.white,
-              padding: EdgeInsets.symmetric(vertical: 16.0),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8.0),
-              ),
-            ),
-            child: isProcessing ? CircularProgressIndicator() : Text('Try On'),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'screens/main_screen.dart';
 import 'screens/results_screen.dart';
 import 'utils/routes.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 void main() {
   runApp(MyApp());
@@ -15,6 +16,7 @@ class MyApp extends StatelessWidget {
       title: 'FASHN Virtual Try-On',
       theme: ThemeData(
         primarySwatch: Colors.blue,
+        textTheme: GoogleFonts.cedarvilleCursiveTextTheme(),
       ),
       initialRoute: Routes.mainScreen,
       routes: {
